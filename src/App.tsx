@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, Button, Container, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import TodoList from './components/TodoList';
+import { addTodo } from './redux/todoSlice';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+	const [task, setTask] = useState('');
+	const dispatch = useDispatch();
+
+	const handleAddTodo = () => {
+		if (task.trim()) {
+			dispatch(addTodo(task.trim()));
+			setTask('');
+		}
+	};
+
+	return (
+		<Container maxWidth="sm">
+			<h1>Todo App</h1>
+			<Box display="flex" alignItems="center">
+				<TextField
+					label="Task"
+					variant="outlined"
+					value={task}
+					onChange={(e) => setTask(e.target.value)}
+				/>
+				<Button variant="contained" onClick={handleAddTodo} sx={{ marginLeft: '8px' }}>
+					Add
+				</Button>
+			</Box>
+			<TodoList />
+		</Container>
+	);
+};
 
 export default App;
