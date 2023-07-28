@@ -1,37 +1,25 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Checkbox, IconButton, ListItem, ListItemText } from '@mui/material';
+import { IconButton, ListItem, ListItemText } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTodo, toggleTodo } from '../redux/todoSlice';
+import { Todo, deleteTodo } from '../redux/todoSlice';
 
 type TodoItemProps = {
-    id: number;
-    task: string;
-    completed: boolean;
+    todo: Todo
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ id, task, completed }): JSX.Element => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo }): JSX.Element => {
+    const { id, title, description } = todo
     const dispatch = useDispatch();
-
-    const handleToggleTodo = () => {
-        dispatch(toggleTodo(id));
-    };
 
     const handleDeleteTodo = () => {
         dispatch(deleteTodo(id));
     };
 
     return (
-        <ListItem
-            button
-            onClick={handleToggleTodo}
-            sx={{
-                textDecoration: completed ? 'line-through' : 'none',
-            }}
-        >
-            <Checkbox checked={completed} />
-            <ListItemText primary={task} />
-            <IconButton onClick={handleDeleteTodo} aria-label="delete">
+        <ListItem>
+            <ListItemText primary={title} secondary={description} />
+            <IconButton onClick={handleDeleteTodo}>
                 <DeleteIcon />
             </IconButton>
         </ListItem>

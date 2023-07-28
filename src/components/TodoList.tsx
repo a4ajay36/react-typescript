@@ -1,5 +1,5 @@
-import { List } from '@mui/material';
-import React from 'react';
+import { Divider, List } from '@mui/material';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import TodoItem from './TodoItem';
@@ -9,13 +9,15 @@ const TodoList: React.FC = (): JSX.Element => {
 
     return (
         <List>
-            {todos.todos.map((todo) => (
-                <TodoItem
-                    key={todo.id}
-                    id={todo.id}
-                    task={todo.task}
-                    completed={todo.completed}
-                />
+            {todos.todos.map((todo, idx) => (
+                <Fragment key={todo.id}>
+                    <TodoItem
+                        todo={todo}
+                    />
+                    {idx + 1 < todos.todos.length && (
+                        <Divider />
+                    )}
+                </Fragment>
             ))}
         </List>
     );
